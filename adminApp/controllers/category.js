@@ -3,8 +3,8 @@ import translit from "../helpers/translit.js";
 import {createError, createResponse} from "../../helpers/responser.js";
 
 export const getList = async (req, res) => {
-    const roles = await models.Category.findAll();
-    res.status(200).json(createResponse(roles))
+    const categories = await models.Category.findAll();
+    res.status(200).json(createResponse(categories));
 }
 
 export const create = async (req, res) => {
