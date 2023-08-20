@@ -4,12 +4,12 @@ const getSubjectModel = sequelize => {
     const Subject = sequelize.define('subject', {
         name: {
             type: DataTypes.STRING,
-            unique: true,
+            unique: false,
             allowNull: false
         },
         code: {
             type: DataTypes.STRING,
-            unique: true,
+            unique: false,
             allowNull: false
         },
         is_sport: {

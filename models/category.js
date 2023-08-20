@@ -4,12 +4,12 @@ const getCategoryModel = sequelize => {
     const Category = sequelize.define('category', {
         name: {
             type: DataTypes.STRING,
-            unique: true,
+            unique: false,
             allowNull: false
         },
         code: {
             type: DataTypes.STRING,
-            unique: true,
+            unique: false,
             allowNull: false
         }
     })

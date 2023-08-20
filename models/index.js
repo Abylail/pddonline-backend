@@ -62,6 +62,7 @@ models.InstitutionSubject.belongsTo(models.Institution, {foreignKey: "institutio
 // Связываю группу с учреждением, адресом и предметом
 models.InstitutionGroup.belongsTo(models.Institution, {foreignKey: "institution_id"});
 models.InstitutionGroup.belongsTo(models.InstitutionSubject, {foreignKey: "institution_subject_id"});
+models.InstitutionSubject.hasMany(models.InstitutionGroup, {foreignKey: "institution_subject_id"});
 models.InstitutionGroup.belongsTo(models.InstitutionBranch, {foreignKey: "institution_branch_id"});
 
 // Связываю адреса и центр
