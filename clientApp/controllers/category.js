@@ -26,7 +26,9 @@ export const getInstitutionSubjects = async (req, res) => {
     const institutionSubjects = await models.InstitutionSubject.findAll({
         where: {subject_id: subjects.map(({id}) => id)},
         include: [
-            {model: models.InstitutionGroup}
+            {model: models.InstitutionGroup},
+            {model: models.Subject},
+            {model: models.Institution}
         ]
     })
     return res.status(200).json(createResponse(institutionSubjects));
