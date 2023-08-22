@@ -6,10 +6,7 @@ const getUserModel = sequelize => {
     const User = sequelize.define('user', {
         first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,
-        phone: {
-            type: DataTypes.STRING,
-            unique: true
-        },
+        phone: DataTypes.STRING,
         password: DataTypes.STRING,
     })
 
