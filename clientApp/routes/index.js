@@ -3,6 +3,7 @@ import "dotenv/config";
 import createParentRoutes from "./parent.js";
 import createCategoryRoutes from "./category.js";
 import createSubjectRoutes from "./subject.js";
+import createInstitutionSubjectRoutes from "./institutionSubject.js";
 
 export default app => {
     const BaseUrl = "/api/v1/client";
@@ -10,4 +11,5 @@ export default app => {
     app.use(`${BaseUrl}/parent`, createParentRoutes(app))
     app.use(`${BaseUrl}/category`, createCategoryRoutes(app))
     app.use(`${BaseUrl}/subject`, createSubjectRoutes(app))
+    app.use(`${BaseUrl}/institutionSubject`, createInstitutionSubjectRoutes(app))
 }
