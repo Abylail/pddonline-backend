@@ -10,13 +10,14 @@ export const getFeed = async (req, res) => {
             limit: +limit || 5,
             offset: +offset || 0,
             include: [
-                {model: models.InstitutionGroup},
+                {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}]},
                 {model: models.Subject},
-                {model: models.Institution}
+                {model: models.Institution},
             ]
         });
     } catch (e) {
-        return res.status(500).json(createError("Не верные параметры"));
+        console.log(e);
+        return res.status(500).json(createError("Не могу получить предметы"));
     }
 
     return res.status(200).json(createResponse(subjects));
