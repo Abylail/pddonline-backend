@@ -10,7 +10,7 @@ const getInstitutionSubjectModel = sequelize => {
             type: DataTypes.TEXT,
             allowNull: true,
         },
-        images: {
+        photos: {
             type: DataTypes.JSON,
             allowNull: true,
         },

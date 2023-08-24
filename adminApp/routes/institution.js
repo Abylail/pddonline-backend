@@ -9,7 +9,7 @@ import {
     uploadLogo, addPhoto, removePhoto
 } from "../controllers/institution/institutionInfo.js";
 import adminOrDirector from "../middlewares/adminOrDirector.js";
-import {createSubject, deleteSubject, getSubjectList, updateSubject} from "../controllers/institution/institutionSubject.js";
+import {createSubject, deleteSubject, getSubjectList, updateSubject, addPhoto as addPhotoSubject, removePhoto as removePhotoSubject} from "../controllers/institution/institutionSubject.js";
 import {createBranch, deleteBranch, getBranchList, updateBranch} from "../controllers/institution/institutionBranch.js";
 import {createGroup, deleteGroup, getGroupList, updateGroup} from "../controllers/institution/institutionGroup.js";
 
@@ -28,7 +28,7 @@ export default () => {
     router.post("/update/:institution_id/upload/photo", adminOrDirector, addPhoto);
     router.post("/update/:institution_id/remove/photo", adminOrDirector, removePhoto);
 
-    // Предметы
+    // Адреса
     router.get("/:institution_id/branch/get", getBranchList);
     router.post("/:institution_id/branch/create", adminOrDirector, createBranch);
     router.put("/:institution_id/branch/update/:branch_id", adminOrDirector, updateBranch);
@@ -39,6 +39,8 @@ export default () => {
     router.post("/:institution_id/subject/create", adminOrDirector, createSubject);
     router.put("/:institution_id/subject/update/:institution_subject_id", adminOrDirector, updateSubject);
     router.delete("/:institution_id/subject/delete/:institution_subject_id", adminOrDirector, deleteSubject);
+    router.post("/:institution_id/subject/uploadPhoto/:institution_subject_id", adminOrDirector, addPhotoSubject);
+    router.post("/:institution_id/subject/removePhoto/:institution_subject_id", adminOrDirector, removePhotoSubject);
 
     // Группы
     router.get("/:institution_id/group/get", getGroupList);
