@@ -5,7 +5,7 @@ const getSmsConfirmModel = sequelize => {
     const SmsConfirm = sequelize.define('smsConfirm', {
         phone: {
             type: DataTypes.STRING,
-            unique: true
+            unique: false
         },
         sms_code: {
             type: DataTypes.STRING,

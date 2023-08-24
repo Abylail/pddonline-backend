@@ -11,6 +11,10 @@ const getCategoryModel = sequelize => {
             type: DataTypes.STRING,
             unique: false,
             allowNull: false
+        },
+        icon_mdi: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     })
 

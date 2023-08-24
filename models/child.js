@@ -6,7 +6,7 @@ const getChildModel = sequelize => {
         name: DataTypes.STRING,
         username: {
             type: DataTypes.STRING,
-            unique: true
+            unique: false
         },
         password: DataTypes.STRING
     })

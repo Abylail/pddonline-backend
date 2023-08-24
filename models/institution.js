@@ -9,7 +9,7 @@ const getInstitutionModel = sequelize => {
         },
         code: {
             type: DataTypes.STRING,
-            unique: true,
+            unique: false,
             allowNull: false,
         },
         logo: {

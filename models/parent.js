@@ -7,7 +7,7 @@ const getParentModel = sequelize => {
         last_name: DataTypes.STRING,
         phone: {
             type: DataTypes.STRING,
-            unique: true
+            unique: false
         },
     })
 
