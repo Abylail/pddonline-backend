@@ -58,6 +58,7 @@ models.InstitutionSubject.belongsTo(models.Subject, {foreignKey: "subject_id"});
 
 // Связываю учереждение и предметы центра
 models.InstitutionSubject.belongsTo(models.Institution, {foreignKey: "institution_id"});
+models.Institution.hasMany(models.InstitutionSubject, {foreignKey: "institution_id"});
 
 // Связываю группу с учреждением, адресом и предметом
 models.InstitutionGroup.belongsTo(models.Institution, {foreignKey: "institution_id"});
@@ -67,6 +68,7 @@ models.InstitutionGroup.belongsTo(models.InstitutionBranch, {foreignKey: "instit
 
 // Связываю адреса и центр
 models.InstitutionBranch.belongsTo(models.Institution, {foreignKey: "institution_id"});
+models.Institution.hasMany(models.InstitutionBranch, {foreignKey: "institution_id"});
 
 export {sequelize};
 

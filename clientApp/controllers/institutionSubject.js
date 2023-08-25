@@ -16,7 +16,6 @@ export const getFeed = async (req, res) => {
             ]
         });
     } catch (e) {
-        console.log(e);
         return res.status(500).json(createError("Не могу получить предметы"));
     }
 

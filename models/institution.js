@@ -53,6 +53,10 @@ const getInstitutionModel = sequelize => {
             values: ["center"],
             defaultValue: "center",
             allowNull: false
+        },
+        rating: {
+            type: DataTypes.FLOAT,
+            defaultValue: 4.0
         }
     })
 
