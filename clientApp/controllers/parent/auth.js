@@ -1,7 +1,7 @@
-import models from "../../models/index.js";
-import {createError, createResponse} from "../../helpers/responser.js";
+import models from "../../../models/index.js";
+import {createError, createResponse} from "../../../helpers/responser.js";
 import "dotenv/config";
-import {generateToken} from "../../helpers/generateAccessToken.js";
+import {generateToken} from "../../../helpers/generateAccessToken.js";
 
 // Генерация случайных 4 чисел
 const generateSmsCode = () => "9999";

@@ -47,7 +47,8 @@ models.Subject.belongsToMany(models.Category, {through: "category_subject", as: 
 models.Category.belongsToMany(models.Subject, {through: "category_subject", as: "subjects"});
 
 // Связываю клиента (Родителя) и клиента (Ребенок)
-models.Parent.belongsToMany(models.Child, {through: "parent_children", as: "children"});
+models.Child.belongsTo(models.Parent, {foreignKey: "parent_id"});
+models.Parent.hasMany(models.Child, {foreignKey: "parent_id"});
 
 // Связываю учереждение и директора
 models.Institution.hasOne(models.User, {foreignKey: "institution_id", as: "director"});

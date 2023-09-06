@@ -4,9 +4,11 @@ import "dotenv/config"
 const getChildModel = sequelize => {
     const Child = sequelize.define('child', {
         name: DataTypes.STRING,
-        username: {
-            type: DataTypes.STRING,
-            unique: false
+        username: DataTypes.STRING,
+        age: DataTypes.INTEGER,
+        gender: {
+          type: DataTypes.ENUM,
+          values: ["M", "W"]
         },
         password: DataTypes.STRING
     })
