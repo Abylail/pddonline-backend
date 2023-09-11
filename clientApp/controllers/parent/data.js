@@ -52,3 +52,19 @@ export const updateChildren = async (req, res) => {
     const children = await models.Child.findAll({where: {parent_id: parentId}});
     return res.status(200).json(createResponse(children));
 }
+
+export const deleteChildren = async (req, res) => {
+    const parentId = req.parentId;
+    const childId = req.params.id;
+
+    if (!parentId || !childId) return res.status(500).json(createError("Не достаточно аргументов"));
+
+    try {
+        await models.Child.destroy({where: {id: childId, parent_id: parentId}});
+    } catch (e) {
+        return res.status(500).json(createError("Не могу удалить ребенка"));
+    }
+
+    const children = await models.Child.findAll({where: {parent_id: parentId}});
+    return res.status(200).json(createResponse(children));
+}

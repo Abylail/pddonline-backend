@@ -1,7 +1,7 @@
 import express from "express";
 import {phoneSmsAuth, sendSms, tokenAuth} from "../controllers/parent/auth.js";
 import parentAuth from "../middlewares/parentAuth.js";
-import {addChildren, getChildren, updateChildren, updateInfo} from "../controllers/parent/data.js";
+import {addChildren, getChildren, updateChildren, updateInfo, deleteChildren} from "../controllers/parent/data.js";
 
 export default () => {
     const router = express.Router();
@@ -15,6 +15,7 @@ export default () => {
     router.get("/data/children/get", parentAuth, getChildren);
     router.post("/data/children/add", parentAuth, addChildren);
     router.put("/data/children/update", parentAuth, updateChildren);
+    router.delete("/data/children/delete/:id", parentAuth, deleteChildren);
 
     return router;
 }
