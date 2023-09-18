@@ -8,8 +8,8 @@ export const getTop = async (req, res) => {
     let institutions
     try {
         institutions = await models.Institution.findAll({
-            limit: +limit || 5,
-            offset: +offset || 0,
+            limit: +limit || undefined,
+            offset: +offset || undefined,
             order: [
                 [ cast(col('rating'), 'FLOAT') , 'DESC' ]
             ],

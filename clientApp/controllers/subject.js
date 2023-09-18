@@ -8,8 +8,8 @@ export const getList = async (req, res) => {
 
     try {
         subjects = await models.Subject.findAll({
-            limit: +limit || 5,
-            offset: +offset || 0,
+            limit: +limit || undefined,
+            offset: +offset || undefined,
         });
     } catch (e) {
         return res.status(500).json(createError("Не верные параметры"));

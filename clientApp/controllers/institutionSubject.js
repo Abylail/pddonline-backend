@@ -7,8 +7,8 @@ export const getFeed = async (req, res) => {
 
     try {
         subjects = await models.InstitutionSubject.findAll({
-            limit: +limit || 5,
-            offset: +offset || 0,
+            limit: +limit || undefined,
+            offset: +offset || undefined,
             include: [
                 {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}]},
                 {model: models.Subject},
