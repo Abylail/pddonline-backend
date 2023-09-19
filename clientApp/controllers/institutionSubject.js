@@ -21,3 +21,22 @@ export const getFeed = async (req, res) => {
 
     return res.status(200).json(createResponse(subjects));
 }
+
+export const getSubjectDetails = async (req, res) => {
+    const {id} = req.params;
+    let subject
+
+    try {
+        subject = await models.InstitutionSubject.findByPk(id, {
+            include: [
+                {model: models.InstitutionGroup},
+                {model: models.Subject},
+                {model: models.Institution, include: [{model: models.InstitutionBranch}, {model: models.InstitutionSubject}]},
+            ]
+        });
+    } catch (e) {
+        return res.status(500).json(createError("Не могу получить предмет"));
+    }
+
+    return res.status(200).json(createResponse(subject));
+}
