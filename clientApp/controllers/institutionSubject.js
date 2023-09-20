@@ -31,7 +31,6 @@ export const getSubjectDetails = async (req, res) => {
             include: [
                 {model: models.InstitutionGroup},
                 {model: models.Subject},
-                {model: models.Institution, include: [{model: models.InstitutionBranch}, {model: models.InstitutionSubject}]},
             ]
         });
     } catch (e) {

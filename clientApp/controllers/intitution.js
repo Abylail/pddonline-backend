@@ -25,3 +25,22 @@ export const getTop = async (req, res) => {
 
     return res.status(200).json(createResponse(institutions));
 }
+
+export const getInstitutionDetails = async (req, res) => {
+    const {id} = req.params;
+    let institution
+
+    try {
+        institution = await models.Institution.findByPk(id, {
+            include: [
+                {model: models.InstitutionSubject},
+                {model: models.InstitutionBranch},
+            ]
+        });
+    } catch (e) {
+        return res.status(500).json(createError("Не могу получить центр"));
+
+    }
+
+    return res.status(200).json(createResponse(institution));
+}
