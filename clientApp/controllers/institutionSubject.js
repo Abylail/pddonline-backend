@@ -29,7 +29,7 @@ export const getSubjectDetails = async (req, res) => {
     try {
         subject = await models.InstitutionSubject.findByPk(id, {
             include: [
-                {model: models.InstitutionGroup},
+                {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}]},
                 {model: models.Subject},
             ]
         });
