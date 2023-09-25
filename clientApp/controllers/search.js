@@ -1,5 +1,6 @@
 import models from "../../models/index.js";
 import {createError, createResponse, createWhere} from "../../helpers/responser.js";
+import {cast, col} from "sequelize";
 
 /** Поиск уроков */
 export const searchLessons = async (req, res) => {
@@ -29,4 +30,33 @@ export const searchLessons = async (req, res) => {
     }
 
     return res.status(200).json(createResponse(lessons));
+}
+
+/** Поиск по центрам */
+export const searchCenters = async (req, res) => {
+    const {
+        limit,
+        offset,
+        categoryId, /* Код урока */
+    } = req.query;
+
+    let institutions
+    try {
+        institutions = await models.Institution.findAll({
+            limit: +limit || undefined,
+            offset: +offset || undefined,
+            order: [
+                [ cast(col('rating'), 'FLOAT') , 'DESC' ]
+            ],
+            include: [
+                {model: models.InstitutionSubject},
+                {model: models.InstitutionBranch},
+            ]
+        });
+    } catch (e) {
+        return res.status(500).json(createError("Не могу получить центры"));
+
+    }
+
+    return res.status(200).json(createResponse(institutions));
 }

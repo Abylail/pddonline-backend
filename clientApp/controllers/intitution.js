@@ -35,9 +35,11 @@ export const getInstitutionDetails = async (req, res) => {
             include: [
                 {model: models.InstitutionSubject},
                 {model: models.InstitutionBranch},
+                {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}]},
             ]
         });
     } catch (e) {
+        console.log(e);
         return res.status(500).json(createError("Не могу получить центр"));
 
     }
