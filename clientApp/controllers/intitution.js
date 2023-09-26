@@ -46,3 +46,20 @@ export const getInstitutionDetails = async (req, res) => {
 
     return res.status(200).json(createResponse(institution));
 }
+
+export const getInstitutionSubjects = async (req, res) => {
+    const {id} = req.params;
+
+    if (!id) return res.status(500).json(createError("Нет id центра"))
+
+    const institutionSubjects = await models.InstitutionSubject.findAll({
+        where: {institution_id: id},
+        include: [
+            {model: models.InstitutionGroup},
+            {model: models.Subject},
+            {model: models.Institution}
+        ]
+    });
+
+    return res.status(200).json(createResponse(institutionSubjects));
+}

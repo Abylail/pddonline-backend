@@ -1,5 +1,5 @@
 import express from "express";
-import {getInstitutionDetails, getTop} from "../controllers/intitution.js";
+import {getInstitutionDetails, getInstitutionSubjects, getTop} from "../controllers/intitution.js";
 
 
 export default () => {
@@ -7,6 +7,7 @@ export default () => {
 
     router.get("/top", getTop);
     router.get("/details/:id", getInstitutionDetails);
+    router.get("/details/:id/subjects", getInstitutionSubjects);
 
     return router;
 }
