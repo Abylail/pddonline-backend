@@ -12,6 +12,7 @@ import getSmsConfirmModel from "./smsConfirm.js";
 import getInstitutionSubjectModel from "./institutionSubject.js";
 import getInstitutionGroupModel from "./institutionGroup.js";
 import getInstitutionBranchModel from "./institutionBranch.js";
+import getTrialRegistrationModel from "./trialRegistration.js";
 
 const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     dialect: process.env.DATABASE_DIALECT,
@@ -37,6 +38,8 @@ const models = {
     InstitutionSubject: getInstitutionSubjectModel(sequelize),
     InstitutionGroup: getInstitutionGroupModel(sequelize),
     InstitutionBranch: getInstitutionBranchModel(sequelize),
+
+    TrialRegistration: getTrialRegistrationModel(sequelize),
 }
 
 // Связываю юзера и роли
@@ -64,13 +67,25 @@ models.Institution.hasMany(models.InstitutionSubject, {foreignKey: "institution_
 // Связываю группу с учреждением, адресом и предметом
 models.InstitutionGroup.belongsTo(models.Institution, {foreignKey: "institution_id"});
 models.Institution.hasMany(models.InstitutionGroup, {foreignKey: "institution_id"});
+
 models.InstitutionGroup.belongsTo(models.InstitutionSubject, {foreignKey: "institution_subject_id"});
 models.InstitutionSubject.hasMany(models.InstitutionGroup, {foreignKey: "institution_subject_id"});
+
 models.InstitutionGroup.belongsTo(models.InstitutionBranch, {foreignKey: "institution_branch_id"});
 
 // Связываю адреса и центр
 models.InstitutionBranch.belongsTo(models.Institution, {foreignKey: "institution_id"});
 models.Institution.hasMany(models.InstitutionBranch, {foreignKey: "institution_id"});
+
+// Связываю регистрацию на пробный
+models.TrialRegistration.belongsTo(models.InstitutionGroup, {foreignKey: "institution_group_id"})
+models.InstitutionGroup.hasMany(models.TrialRegistration, {foreignKey: "institution_group_id"})
+
+models.TrialRegistration.belongsTo(models.Parent, {foreignKey: "parent_id"})
+models.Parent.hasMany(models.TrialRegistration, {foreignKey: "parent_id"})
+
+models.TrialRegistration.belongsTo(models.Child, {foreignKey: "child_id"})
+models.Child.hasMany(models.TrialRegistration, {foreignKey: "child_id"})
 
 export {sequelize};
 
