@@ -1,6 +1,8 @@
 import models from "../../../models/index.js";
 import {createError, createResponse} from "../../../helpers/responser.js";
+import {Op} from "sequelize";
 
+// Регистраций на пробный урок
 export const registerTrial = async (req, res) => {
     const parentId = req.parentId;
     const {child_id, date, weekday, time, institution_group_id} = req.body;
@@ -37,10 +39,41 @@ export const registerTrial = async (req, res) => {
     const newRegistration = await models.TrialRegistration.findByPk(registration.dataValues.id, {
         include: [
             {model: models.Child},
-            {model: models.Parent},
             {model: models.InstitutionGroup},
         ]
     });
 
     return res.status(200).json(createResponse(newRegistration))
+}
+
+// Список активных записей
+export const registerActiveTrialList = async (req, res) => {
+    const parentId = req.parentId;
+    const TODAY_START = new Date()
+
+    let list
+
+    try {
+        list = await models.TrialRegistration.findAll({
+            where: {
+                parent_id: parentId,
+                date: {
+                    [Op.gt]: TODAY_START
+                }
+            },
+            include: [
+                {model: models.Child},
+                {
+                    model: models.InstitutionGroup, include: [
+                        {model: models.Institution},
+                        {model: models.InstitutionBranch},
+                    ]
+                },
+            ]
+        })
+    } catch (e) {
+        return res.status(500).json(createError("Ошибка получения списка записей"))
+    }
+
+    return res.status(200).json(createResponse(list));
 }
