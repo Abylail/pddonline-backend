@@ -67,6 +67,7 @@ export const registerActiveTrialList = async (req, res) => {
                     model: models.InstitutionGroup, include: [
                         {model: models.Institution},
                         {model: models.InstitutionBranch},
+                        {model: models.InstitutionSubject},
                     ]
                 },
             ]
