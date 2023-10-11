@@ -40,8 +40,19 @@ export const searchCenters = async (req, res) => {
         categoryId, /* Код урока */
     } = req.query;
 
+    let availableSubjectIds
+
     let institutions
     try {
+        if (categoryId) {
+            const availableSubjects = await models.Subject.findAll({
+                include: [
+                    { model: models.Category, where: {id: categoryId}, as: "categories", through: "category_subject" }
+                ]
+            })
+            availableSubjectIds = availableSubjects?.map(({id}) => id) || null;
+        }
+
         institutions = await models.Institution.findAll({
             limit: +limit || undefined,
             offset: +offset || undefined,
@@ -49,11 +60,12 @@ export const searchCenters = async (req, res) => {
                 [ cast(col('rating'), 'FLOAT') , 'DESC' ]
             ],
             include: [
-                {model: models.InstitutionSubject},
+                {model: models.InstitutionSubject, where: createWhere({subject_id: availableSubjectIds})},
                 {model: models.InstitutionBranch},
             ]
         });
     } catch (e) {
+        console.log(e)
         return res.status(500).json(createError("Не могу получить центры"));
 
     }
