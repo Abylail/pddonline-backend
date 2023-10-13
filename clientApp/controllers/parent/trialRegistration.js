@@ -55,6 +55,7 @@ export const registerActiveTrialList = async (req, res) => {
 
     try {
         list = await models.TrialRegistration.findAll({
+            order: [['date', 'ASC']],
             where: {
                 parent_id: parentId,
                 date: {
@@ -77,4 +78,35 @@ export const registerActiveTrialList = async (req, res) => {
     }
 
     return res.status(200).json(createResponse(list));
+}
+
+// Список активных записей
+export const registerGetTrial = async (req, res) => {
+    const parentId = req.parentId;
+    const { trialId } = req.params;
+
+    if (!trialId) return res.status(500).json(createError("Нет id записи"))
+
+    let item
+
+    try {
+        item = await models.TrialRegistration.findOne({
+            where: {id: trialId, parent_id: parentId},
+            include: [
+                {model: models.Child},
+                {
+                    model: models.InstitutionGroup, include: [
+                        {model: models.Institution},
+                        {model: models.InstitutionBranch},
+                        {model: models.InstitutionSubject},
+                    ]
+                },
+            ]
+        })
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json(createError("Ошибка получения записи"))
+    }
+
+    return res.status(200).json(createResponse(item));
 }

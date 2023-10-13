@@ -2,7 +2,7 @@ import express from "express";
 import {phoneSmsAuth, sendSms, tokenAuth} from "../controllers/parent/auth.js";
 import parentAuth from "../middlewares/parentAuth.js";
 import {addChildren, getChildren, updateChildren, updateInfo, deleteChildren} from "../controllers/parent/data.js";
-import {registerActiveTrialList, registerTrial} from "../controllers/parent/trialRegistration.js";
+import {registerActiveTrialList, registerGetTrial, registerTrial} from "../controllers/parent/trialRegistration.js";
 
 export default () => {
     const router = express.Router();
@@ -20,6 +20,7 @@ export default () => {
 
     router.post("/register/trial", parentAuth, registerTrial)
     router.get("/register/trial/activelist", parentAuth, registerActiveTrialList)
+    router.get("/register/trial/:trialId", parentAuth, registerGetTrial)
 
     return router;
 }
