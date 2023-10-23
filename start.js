@@ -24,7 +24,10 @@ export default () => {
     }))
     app.use(cookieParser())
 
-    sequelize.sync({force: false}).then(() => {
+    sequelize.sync({
+        force: false,
+        logging: false
+    }).then(() => {
         createAdminRouter(app);
         createClientRouter(app);
     })
