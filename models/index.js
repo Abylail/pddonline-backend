@@ -21,7 +21,8 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER,
     port: process.env.DATABASE_PORT,
     operatorsAliases: {
         $like: Op.like,
-    }
+    },
+    logging: false
 });
 
 const models = {
