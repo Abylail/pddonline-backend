@@ -18,7 +18,7 @@ export default () => {
         limit: '500mb'
     }));
     app.use(cors({
-        origin: ['http://localhost:3000', 'https://kidup.kz'],
+        origin: ['http://localhost:3000', 'http://localhost:3001', 'https://kidup.kz'],
         credentials: true,
         methods: "GET, POST, PUT, DELETE",
     }))
