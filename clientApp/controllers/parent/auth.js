@@ -2,9 +2,10 @@ import models from "../../../models/index.js";
 import {createError, createResponse} from "../../../helpers/responser.js";
 import "dotenv/config";
 import {generateToken} from "../../../helpers/generateAccessToken.js";
+import {sendSmsService} from "../../../services/sendSms.js";
 
 // Генерация случайных 4 чисел
-const generateSmsCode = () => "9999";
+const generateSmsCode = () => Math.floor(1000 + Math.random() * 9000);
 
 export const sendSms = async (req, res) => {
     const {phone} = req.body;
@@ -12,6 +13,8 @@ export const sendSms = async (req, res) => {
     if (!phone) return res.status(500).json(createError("Нет телефона"))
 
     const smsCode = generateSmsCode();
+
+    // const ans = await sendSmsService(phone, `Ваш код для входа kidup: ${smsCode}`);
 
     const smsConfirmOld = await models.SmsConfirm.findOne({where: {phone}})
 
