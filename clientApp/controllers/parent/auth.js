@@ -14,7 +14,8 @@ export const sendSms = async (req, res) => {
 
     const smsCode = generateSmsCode();
 
-    // const ans = await sendSmsService(phone, `Ваш код для входа kidup: ${smsCode}`);
+    const smsSuccess = await sendSmsService(phone, `Ваш код для входа kidup: ${smsCode}`);
+    if (!smsSuccess) return res.status(500).json(createError("Не удалось отправить смс"))
 
     const smsConfirmOld = await models.SmsConfirm.findOne({where: {phone}})
 
