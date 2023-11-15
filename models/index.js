@@ -84,6 +84,8 @@ models.Institution.hasMany(models.InstitutionBranch, {foreignKey: "institution_i
 // Связываю регистрацию на пробный
 models.TrialRegistration.belongsTo(models.InstitutionGroup, {foreignKey: "institution_group_id"})
 models.InstitutionGroup.hasMany(models.TrialRegistration, {foreignKey: "institution_group_id"})
+models.TrialRegistration.belongsTo(models.Institution, {foreignKey: "institution_id"})
+models.Institution.hasMany(models.TrialRegistration, {foreignKey: "institution_id"})
 
 models.TrialRegistration.belongsTo(models.Parent, {foreignKey: "parent_id"})
 models.Parent.hasMany(models.TrialRegistration, {foreignKey: "parent_id"})

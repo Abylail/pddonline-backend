@@ -30,6 +30,10 @@ const getInstitutionGroupModel = sequelize => {
             type: DataTypes.BOOLEAN,
             allowNull: true,
         },
+        open_enrollment: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
         monday_start: {
             type: DataTypes.STRING,
             allowNull: true,

@@ -20,7 +20,7 @@ export const createGroup = async (req, res) => {
         institution_branch_id, institution_subject_id,
         price, price_trial,
         min_age, max_age, max_children_count,
-        language_ru, language_kz,
+        language_ru, language_kz, open_enrollment,
         monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end
     } = req.body;
 
@@ -42,7 +42,7 @@ export const createGroup = async (req, res) => {
         newInstitutionGroup = await models.InstitutionGroup.create({
             price, price_trial,
             min_age, max_age, max_children_count,
-            language_ru, language_kz,
+            language_ru, language_kz, open_enrollment,
             monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end
         })
         await newInstitutionGroup.setInstitution(institution);
@@ -69,7 +69,7 @@ export const updateGroup = async (req, res) => {
         institution_branch_id, institution_subject_id,
         price, price_trial,
         min_age, max_age, max_children_count,
-        language_ru, language_kz,
+        language_ru, language_kz, open_enrollment,
         monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end
     } = req.body;
 
@@ -85,7 +85,7 @@ export const updateGroup = async (req, res) => {
         [, updatedInstitutionGroup] = await models.InstitutionGroup.update({
             price, price_trial,
             min_age, max_age, max_children_count,
-            language_ru, language_kz,
+            language_ru, language_kz, open_enrollment,
             monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end
         }, {
             where: {id: institution_group_id, institution_id},

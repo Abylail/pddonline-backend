@@ -29,6 +29,7 @@ export const registerTrial = async (req, res) => {
             weekday: weekday,
             time: time,
             institution_group_id: institution_group_id,
+            institution_id: institutionGroup.dataValues.institution_id,
             parent_id: parentId,
             child_id: child_id
         })

@@ -12,6 +12,7 @@ import adminOrDirector from "../middlewares/adminOrDirector.js";
 import {createSubject, deleteSubject, getSubjectList, updateSubject, addPhoto as addPhotoSubject, removePhoto as removePhotoSubject} from "../controllers/institution/institutionSubject.js";
 import {createBranch, deleteBranch, getBranchList, updateBranch} from "../controllers/institution/institutionBranch.js";
 import {createGroup, deleteGroup, getGroupList, updateGroup} from "../controllers/institution/institutionGroup.js";
+import {getTrialRegistrations} from "../controllers/institution/trialRegistrations.js";
 
 export default () => {
     const router = express.Router();
@@ -47,6 +48,9 @@ export default () => {
     router.post("/:institution_id/group/create", adminOrDirector, createGroup);
     router.put("/:institution_id/group/update/:institution_group_id", adminOrDirector, updateGroup);
     router.delete("/:institution_id/group/delete/:institution_group_id", adminOrDirector, deleteGroup);
+
+    // Записи
+    router.get("/:institution_id/trialregistrations/get", adminOrDirector, getTrialRegistrations)
 
     return router;
 }
