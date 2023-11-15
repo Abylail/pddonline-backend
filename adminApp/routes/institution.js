@@ -49,7 +49,7 @@ export default () => {
     router.put("/:institution_id/group/update/:institution_group_id", adminOrDirector, updateGroup);
     router.delete("/:institution_id/group/delete/:institution_group_id", adminOrDirector, deleteGroup);
 
-    // Записи
+    // Записи на пробный
     router.get("/:institution_id/trialregistrations/get", adminOrDirector, getTrialRegistrations)
 
     return router;

@@ -1,4 +1,5 @@
 import {DataTypes} from "sequelize";
+import {statuses} from "../config/trialRegistrations.js";
 import "dotenv/config"
 
 const getTrialRegistrationModel = sequelize => {
@@ -10,6 +11,11 @@ const getTrialRegistrationModel = sequelize => {
         date: DataTypes.DATE,
         weekday: DataTypes.STRING,
         time: DataTypes.STRING,
+        status: {
+            type: DataTypes.ENUM,
+            values: statuses,
+            default: "start"
+        },
     })
 
     return TrialRegistration

@@ -7,6 +7,7 @@ import getCategoryRoutes from "./category.js";
 import getSubjectRoutes from "./subject.js";
 import getParentRoutes from "./parent.js";
 import getInstitutionRoutes from "./institution.js";
+import getTrialRegistrationsRoutes from "./trialRegistrations.js";
 
 export default app => {
     const BaseUrl = "/api/v1/admin";
@@ -18,4 +19,5 @@ export default app => {
     app.use(`${BaseUrl}/subject`, getSubjectRoutes(app))
     app.use(`${BaseUrl}/parent`, getParentRoutes(app))
     app.use(`${BaseUrl}/institution`, getInstitutionRoutes(app))
+    app.use(`${BaseUrl}/trialregistrations`, getTrialRegistrationsRoutes(app))
 }
