@@ -1,12 +1,12 @@
-import * as http from "http";
+import * as http from "https";
 import "dotenv/config";
 
 export const sendSmsService = (phone, text) => new Promise(resolve => {
     const reqOptions = {
-        host: process.env.SMS_SERVICE_HOST,
-        port: "80",
-        method: "GET",
-        path: encodeURI(`/service/message/sendSmsMessage?apiKey=${process.env.SMS_SERVICE_KEY}&recipient=${phone}&text=${text}`),
+        host: process.env.WHATSAPP_SERVICE_HOST,
+        method: "POST",
+        post: 80,
+        path: `/waInstance${process.env.WHATSAPP_SERVICE_INSTANCE}/sendMessage/${process.env.WHATSAPP_SERVICE_KEY}`,
         headers: {
             "Content-Type": "application/json",
         }
@@ -17,7 +17,12 @@ export const sendSmsService = (phone, text) => new Promise(resolve => {
         r.on("data", () => resolve(true))
     });
 
-    req.on("error", () => resolve(false));
+    req.on("error", (e) => resolve(false));
+
+    req.write(JSON.stringify({
+        "chatId": `${phone}@c.us`,
+        "message": text
+    }))
 
     req.end();
 })

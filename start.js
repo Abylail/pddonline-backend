@@ -27,7 +27,7 @@ export default () => {
 
     sequelize.sync({
         force: false,
-        logging: false
+        logging: false,
     }).then(() => {
         createAdminRouter(app);
         createClientRouter(app);
