@@ -1,6 +1,8 @@
 import models from "../../../models/index.js";
 import {createError, createResponse} from "../../../helpers/responser.js";
 import {Op} from "sequelize";
+import {sendSmsService} from "../../../services/sendSms.js";
+import {weekdaysDictionary} from "../../../config/weekdays.js";
 
 // Регистраций на пробный урок
 export const registerTrial = async (req, res) => {
@@ -43,6 +45,8 @@ export const registerTrial = async (req, res) => {
             {model: models.InstitutionGroup},
         ]
     });
+
+    await sendSmsService(parent.dataValues.phone, `Вы записались на пробный урок (${weekdaysDictionary[weekday]} ${time}). Подробнее https://kidup.kz/account`);
 
     return res.status(200).json(createResponse(newRegistration))
 }
