@@ -6,7 +6,7 @@ import {
     update,
     deleteInstitution,
     getById,
-    uploadLogo, addPhoto, removePhoto
+    uploadLogo, addPhoto, removePhoto, enterAsInstitution
 } from "../controllers/institution/institutionInfo.js";
 import adminOrDirector from "../middlewares/adminOrDirector.js";
 import {createSubject, deleteSubject, getSubjectList, updateSubject, addPhoto as addPhotoSubject, removePhoto as removePhotoSubject} from "../controllers/institution/institutionSubject.js";
@@ -23,6 +23,9 @@ export default () => {
     router.post("/create", onlyAdmin, create);
     router.put("/update/:institution_id", adminOrDirector, update);
     router.delete("/delete/:institution_id", adminOrDirector, deleteInstitution);
+
+    // Зайти под учреждение
+    router.get("/enter/:institution_id", onlyAdmin, enterAsInstitution);
 
     // Фото учреждения
     router.post("/update/:institution_id/upload/logo", adminOrDirector, uploadLogo);

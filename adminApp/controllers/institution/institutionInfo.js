@@ -3,6 +3,7 @@ import {createError, createResponse} from "../../../helpers/responser.js";
 import translit from "../../helpers/translit.js";
 import generateRandomHash from "../../../helpers/generateRandomHash.js";
 import {removeFile, uploadFile} from "../../../services/image.js";
+import {generateToken} from "../../../helpers/generateAccessToken.js";
 
 export const getList = async (req, res) => {
     const institutions = await models.Institution.findAll({
@@ -11,6 +12,25 @@ export const getList = async (req, res) => {
         ]
     });
     return res.status(200).json(createResponse(institutions));
+}
+
+// Зайти под учреждением
+export const enterAsInstitution = async (req, res) => {
+    const {institution_id} = req.params;
+    const institution = await models.Institution.findByPk(institution_id);
+    if (!institution) return res.status(404).json(createError("Учреждение не найденно"))
+
+    const director = await models.User.findOne({
+        where: {institution_id},
+        include: [
+            {model: models.Role, as: "role", attributes: ["title", "code"]}
+        ],
+    });
+    if (!director) return res.status(404).json(createError("Директор не найден"))
+
+    const token = generateToken({id: director.id, role_code: director.role?.code, institution_id: director.institution_id});
+
+    return res.status(200).json(createResponse(token));
 }
 
 export const getById = async (req, res) => {
