@@ -55,7 +55,7 @@ models.Category.belongsToMany(models.Subject, {through: "category_subject", as: 
 
 // Связываю клиента (Родителя) и клиента (Ребенок)
 models.Child.belongsTo(models.Parent, {foreignKey: "parent_id"});
-models.Parent.hasMany(models.Child, {foreignKey: "parent_id"});
+models.Parent.hasMany(models.Child, {foreignKey: "parent_id", onDelete: 'cascade'});
 
 // Связываю учереждение и директора
 models.Institution.hasOne(models.User, {foreignKey: "institution_id", as: "director"});
@@ -63,23 +63,24 @@ models.User.hasOne(models.Institution, {foreignKey: "director_id", as: "institut
 
 // Связываю предметы и предметы центра
 models.InstitutionSubject.belongsTo(models.Subject, {foreignKey: "subject_id"});
+models.Subject.hasMany(models.InstitutionSubject, {foreignKey: "subject_id", onDelete: 'cascade'});
 
 // Связываю учереждение и предметы центра
 models.InstitutionSubject.belongsTo(models.Institution, {foreignKey: "institution_id"});
-models.Institution.hasMany(models.InstitutionSubject, {foreignKey: "institution_id"});
+models.Institution.hasMany(models.InstitutionSubject, {foreignKey: "institution_id", onDelete: 'cascade'});
 
 // Связываю группу с учреждением, адресом и предметом
 models.InstitutionGroup.belongsTo(models.Institution, {foreignKey: "institution_id"});
-models.Institution.hasMany(models.InstitutionGroup, {foreignKey: "institution_id"});
+models.Institution.hasMany(models.InstitutionGroup, {foreignKey: "institution_id", onDelete: 'cascade'});
 
 models.InstitutionGroup.belongsTo(models.InstitutionSubject, {foreignKey: "institution_subject_id"});
 models.InstitutionSubject.hasMany(models.InstitutionGroup, {foreignKey: "institution_subject_id"});
 
-models.InstitutionGroup.belongsTo(models.InstitutionBranch, {foreignKey: "institution_branch_id"});
+models.InstitutionGroup.belongsTo(models.InstitutionBranch, {foreignKey: "institution_branch_id", onDelete: 'cascade'});
 
 // Связываю адреса и центр
 models.InstitutionBranch.belongsTo(models.Institution, {foreignKey: "institution_id"});
-models.Institution.hasMany(models.InstitutionBranch, {foreignKey: "institution_id"});
+models.Institution.hasMany(models.InstitutionBranch, {foreignKey: "institution_id", onDelete: 'cascade'});
 
 // Связываю регистрацию на пробный
 models.TrialRegistration.belongsTo(models.InstitutionGroup, {foreignKey: "institution_group_id"})
