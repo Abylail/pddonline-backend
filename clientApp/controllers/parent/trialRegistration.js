@@ -46,7 +46,9 @@ export const registerTrial = async (req, res) => {
         ]
     });
 
+    // Отправка смс клиенту
     await sendSmsService(parent.dataValues.phone, `Вы записались на пробный урок (${weekdaysDictionary[weekday]} ${time}). Подробнее https://kidup.kz/account`);
+
 
     return res.status(200).json(createResponse(newRegistration))
 }

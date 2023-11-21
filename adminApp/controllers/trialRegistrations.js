@@ -40,3 +40,19 @@ export const setStatusTrialRegistrations = async (req, res) => {
 
     return res.status(200).json(createResponse(updatedRegistration));
 }
+
+// Удалить пробный урок
+export const deleteTrialRegistration = async (req, res) => {
+    const {registration_id} = req.params;
+    if (!registration_id) return res.status(500).json(createError("Отстуствуют аргументы"));
+
+    try {
+        await models.TrialRegistration.destroy({where: {id: registration_id}}, {
+            where: {id: registration_id},
+        })
+    } catch (e) {
+        return res.status(500).json(createError("Не могу удалить"))
+    }
+
+    return res.status(200).json(createResponse({status: "OK"}))
+}
