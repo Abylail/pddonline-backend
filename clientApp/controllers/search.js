@@ -1,6 +1,6 @@
 import models from "../../models/index.js";
 import {createError, createResponse, createWhere} from "../../helpers/responser.js";
-import {cast, col} from "sequelize";
+import {cast, col, Op} from "sequelize";
 
 /** Поиск уроков */
 export const searchLessons = async (req, res) => {
@@ -56,9 +56,6 @@ export const searchCenters = async (req, res) => {
         institutions = await models.Institution.findAll({
             limit: +limit || undefined,
             offset: +offset || undefined,
-            order: [
-                [ cast(col('rating'), 'FLOAT') , 'DESC' ]
-            ],
             include: [
                 {model: models.InstitutionSubject, where: createWhere({subject_id: availableSubjectIds})},
                 {model: models.InstitutionBranch},
@@ -71,4 +68,33 @@ export const searchCenters = async (req, res) => {
     }
 
     return res.status(200).json(createResponse(institutions));
+}
+
+/** Поиск по филиалам (адресам) */
+export const searchBranches = async (req, res) => {
+    const {subjectId /* Код урока */, categoryId} = req.query;
+
+    let availableSubjectIds;
+    if (categoryId) {
+        const availableSubjects = await models.Subject.findAll({
+            include: [
+                { model: models.Category, where: {id: categoryId}, as: "categories", through: "category_subject" }
+            ]
+        })
+        availableSubjectIds = availableSubjects?.map(({id}) => id) || null;
+    }
+
+
+    const allBranches = await models.InstitutionBranch.findAll({
+        where: createWhere({
+            "$institution.institutionSubjects.subject_id$": availableSubjectIds || subjectId,
+        }),
+        include: [
+            {
+                model: models.Institution,
+                include: [{model: models.InstitutionSubject}]
+            },
+        ]
+    });
+    return res.status(200).json(createResponse(allBranches))
 }

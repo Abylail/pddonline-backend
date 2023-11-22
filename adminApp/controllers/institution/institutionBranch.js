@@ -1,7 +1,7 @@
 import models from "../../../models/index.js";
 import {createError, createResponse} from "../../../helpers/responser.js";
 
-export const getBranchList = async (req, res) => {
+export const getInstitutionBranchList = async (req, res) => {
     const {institution_id} = req.params;
     const branches = await models.InstitutionBranch.findAll({where: {institution_id}});
 

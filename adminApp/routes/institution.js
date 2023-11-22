@@ -10,7 +10,12 @@ import {
 } from "../controllers/institution/institutionInfo.js";
 import adminOrDirector from "../middlewares/adminOrDirector.js";
 import {createSubject, deleteSubject, getSubjectList, updateSubject, addPhoto as addPhotoSubject, removePhoto as removePhotoSubject} from "../controllers/institution/institutionSubject.js";
-import {createBranch, deleteBranch, getBranchList, updateBranch} from "../controllers/institution/institutionBranch.js";
+import {
+    createBranch,
+    deleteBranch,
+    getInstitutionBranchList,
+    updateBranch
+} from "../controllers/institution/institutionBranch.js";
 import {createGroup, deleteGroup, getGroupList, updateGroup} from "../controllers/institution/institutionGroup.js";
 import {getTrialRegistrations} from "../controllers/institution/trialRegistrations.js";
 
@@ -33,7 +38,7 @@ export default () => {
     router.post("/update/:institution_id/remove/photo", adminOrDirector, removePhoto);
 
     // Адреса
-    router.get("/:institution_id/branch/get", getBranchList);
+    router.get("/:institution_id/branch/get", getInstitutionBranchList);
     router.post("/:institution_id/branch/create", adminOrDirector, createBranch);
     router.put("/:institution_id/branch/update/:branch_id", adminOrDirector, updateBranch);
     router.delete("/:institution_id/branch/delete/:branch_id", adminOrDirector, deleteBranch);
