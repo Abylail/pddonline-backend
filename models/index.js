@@ -13,7 +13,7 @@ import getInstitutionSubjectModel from "./institutionSubject.js";
 import getInstitutionGroupModel from "./institutionGroup.js";
 import getInstitutionBranchModel from "./institutionBranch.js";
 import getTrialRegistrationModel from "./trialRegistration.js";
-import getRequestModel from "./request.js";
+import getQuestionRequestModel from "./request.js";
 
 const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     dialect: process.env.DATABASE_DIALECT,
@@ -43,7 +43,7 @@ const models = {
 
     TrialRegistration: getTrialRegistrationModel(sequelize),
 
-    Request: getRequestModel(sequelize),
+    QuestionRequest: getQuestionRequestModel(sequelize),
 }
 
 // Связываю юзера и роли
@@ -95,8 +95,8 @@ models.TrialRegistration.belongsTo(models.Child, {foreignKey: "child_id"})
 models.Child.hasMany(models.TrialRegistration, {foreignKey: "child_id"})
 
 // Связываю запросы
-models.Request.belongsTo(models.User, {foreignKey: "user_id"});
-models.User.hasMany(models.Request, {foreignKey: "user_id"});
+models.QuestionRequest.belongsTo(models.User, {foreignKey: "user_id"});
+models.User.hasMany(models.QuestionRequest, {foreignKey: "user_id"});
 
 export {sequelize};
 

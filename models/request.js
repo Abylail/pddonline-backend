@@ -1,7 +1,7 @@
 import {DataTypes} from "sequelize";
 
-const getRequestModel = sequelize => {
-    const Request = sequelize.define('request', {
+const getQuestionRequestModel = sequelize => {
+    const QuestionRequest = sequelize.define('questionRequest', {
         reason: {
             type: DataTypes.STRING,
             unique: false,
@@ -26,7 +26,7 @@ const getRequestModel = sequelize => {
         },
     })
 
-    return Request;
+    return QuestionRequest;
 }
 
-export default getRequestModel
+export default getQuestionRequestModel

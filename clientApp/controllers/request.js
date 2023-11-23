@@ -12,13 +12,12 @@ export const parentRequest = async (req, res) => {
     if (!parent) return res.status(500).json(createError("Не хватает аргументов"))
 
     try {
-        await models.Request.create({
+        await models.QuestionRequest.create({
             text,
             reason,
             authorPhone: parent.dataValues.phone,
             authorName: parent.dataValues.first_name,
             authorType: "parent",
-            user_id: parentId
         })
     } catch (e) {
         return res.status(500).json(createError("Ошибка при создании запроса"))
