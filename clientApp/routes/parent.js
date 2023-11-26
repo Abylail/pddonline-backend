@@ -2,7 +2,12 @@ import express from "express";
 import {phoneSmsAuth, sendSms, tokenAuth} from "../controllers/parent/auth.js";
 import parentAuth from "../middlewares/parentAuth.js";
 import {addChildren, getChildren, updateChildren, updateInfo, deleteChildren} from "../controllers/parent/data.js";
-import {registerActiveTrialList, registerGetTrial, registerTrial} from "../controllers/parent/trialRegistration.js";
+import {
+    callRequest,
+    registerActiveTrialList,
+    registerGetTrial,
+    registerTrial
+} from "../controllers/parent/trialRegistration.js";
 import {parentRequest} from "../controllers/request.js";
 
 export default () => {
@@ -22,6 +27,7 @@ export default () => {
     router.post("/register/trial", parentAuth, registerTrial)
     router.get("/register/trial/activelist", parentAuth, registerActiveTrialList)
     router.get("/register/trial/:trialId", parentAuth, registerGetTrial)
+    router.get("/callRequest/:institution_id", parentAuth, callRequest)
 
     router.post("/request", parentAuth, parentRequest)
 

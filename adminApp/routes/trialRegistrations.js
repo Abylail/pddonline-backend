@@ -4,7 +4,7 @@ import onlyAdmin from "../middlewares/onlyAdmin.js";
 import {
     deleteTrialRegistration,
     getTrialRegistrations,
-    setStatusTrialRegistrations
+    setStatusTrialRegistrations, updateTrialRegistrations
 } from "../controllers/trialRegistrations.js";
 
 export default () => {
@@ -12,6 +12,7 @@ export default () => {
 
     router.get("/get", onlyAdmin, getTrialRegistrations)
     router.put("/setStatus", onlyAdmin, setStatusTrialRegistrations)
+    router.put("/update/:registration_id", onlyAdmin, updateTrialRegistrations)
     router.delete("/delete/:registration_id", onlyAdmin, deleteTrialRegistration)
 
     return router;

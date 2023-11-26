@@ -41,6 +41,34 @@ export const setStatusTrialRegistrations = async (req, res) => {
     return res.status(200).json(createResponse(updatedRegistration));
 }
 
+// Обновить статус
+export const updateTrialRegistrations = async (req, res) => {
+    const {registration_id} = req.params;
+    const {title, date, weekday, time} = req.body;
+    if (!title || !date || !weekday || !time || !registration_id) return res.status(500).json(createError("Отстуствуют аргументы"));
+
+    const registration = await models.TrialRegistration.findByPk(registration_id);
+    if (!registration) return res.status(404).json(createError("Регистрация не найдена"))
+
+    try {
+        await models.TrialRegistration.update({title, date, weekday, time}, {
+            where: {id: registration_id},
+        })
+    } catch (e) {
+        return res.status(500).json(createError("Не могу обновить"))
+    }
+
+    const updatedRegistration = await models.TrialRegistration.findByPk(registration_id, {
+        include: [
+            {model: models.InstitutionGroup, include: [{model: models.InstitutionSubject}, {model: models.InstitutionBranch}]},
+            {model: models.Institution, include: [{model: models.User,  as: "director"}]},
+        ]
+    });
+
+
+    return res.status(200).json(createResponse(updatedRegistration));
+}
+
 // Удалить пробный урок
 export const deleteTrialRegistration = async (req, res) => {
     const {registration_id} = req.params;

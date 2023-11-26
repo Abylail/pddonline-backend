@@ -4,6 +4,7 @@ import "dotenv/config"
 
 const getTrialRegistrationModel = sequelize => {
     const TrialRegistration = sequelize.define('trialRegistration', {
+        title: DataTypes.STRING,
         parent_name: DataTypes.STRING,
         parent_phone: DataTypes.STRING,
         child_name: DataTypes.STRING,
