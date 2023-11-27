@@ -84,6 +84,7 @@ export const updateGroup = async (req, res) => {
     try {
         [, updatedInstitutionGroup] = await models.InstitutionGroup.update({
             price, price_trial,
+            institution_subject_id, institution_branch_id,
             min_age, max_age, max_children_count,
             language_ru, language_kz, open_enrollment,
             monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end
@@ -93,18 +94,6 @@ export const updateGroup = async (req, res) => {
         })
     } catch (e) {
         return res.status(500).json(createError("Не могу обновить"))
-    }
-
-    if (oldInstitutionGroup.dataValues.institution_branch_id !== institution_branch_id) {
-        const institutionBranch = await models.InstitutionBranch.findOne({where: {id: institution_branch_id, institution_id}});
-        if (!institutionBranch) return res.status(500).json(createError("Нет филиала"));
-        await updatedInstitutionGroup.setInstitutionBranch(institutionBranch);
-    }
-
-    if (oldInstitutionGroup.dataValues.institution_subject_id !== institution_subject_id) {
-        const institutionSubject = await models.InstitutionSubject.findOne({where: {id: institution_subject_id, institution_id}});
-        if (!institutionSubject) return res.status(500).json(createError("Нет предмета"));
-        await updatedInstitutionGroup.setInstitutionSubject(institutionSubject);
     }
 
     const group = await models.InstitutionGroup.findOne({
