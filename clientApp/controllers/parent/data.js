@@ -6,12 +6,12 @@ export const updateInfo = async (req, res) => {
     const {first_name, last_name, phone} = req.body;
 
     try {
-        await models.Parent.update({first_name, last_name}, {where: {phone, id: parentId}})
+        await models.Parent.update({first_name, last_name}, {where: {id: parentId}})
     } catch (e) {
         res.status(500).json(createError("Не могу обновить пользователя"));
     }
 
-    const newParent = await models.Parent.findOne({where: {phone, id: parentId}})
+    const newParent = await models.Parent.findOne({where: {id: parentId}})
 
     return res.status(200).json(createResponse(newParent))
 }
