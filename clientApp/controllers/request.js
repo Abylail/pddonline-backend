@@ -18,6 +18,7 @@ export const parentRequest = async (req, res) => {
             authorPhone: parent.dataValues.phone,
             authorName: parent.dataValues.first_name,
             authorType: "parent",
+            status: "start"
         })
     } catch (e) {
         return res.status(500).json(createError("Ошибка при создании запроса"))

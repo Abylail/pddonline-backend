@@ -24,6 +24,14 @@ const getQuestionRequestModel = sequelize => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        status: {
+            type: DataTypes.STRING,
+            values: ["start", "processed", "later", "no_answer"],
+            default: "start"
+        },
+        managerComment: {
+            type: DataTypes.STRING,
+        }
     })
 
     return QuestionRequest;
