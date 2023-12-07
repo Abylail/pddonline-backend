@@ -12,6 +12,7 @@ import getSmsConfirmModel from "./smsConfirm.js";
 import getInstitutionSubjectModel from "./institutionSubject.js";
 import getInstitutionGroupModel from "./institutionGroup.js";
 import getInstitutionBranchModel from "./institutionBranch.js";
+import getInstitutionTeacherModel from "./institutionTeacher.js";
 import getTrialRegistrationModel from "./trialRegistration.js";
 import getQuestionRequestModel from "./request.js";
 
@@ -40,6 +41,7 @@ const models = {
     InstitutionSubject: getInstitutionSubjectModel(sequelize),
     InstitutionGroup: getInstitutionGroupModel(sequelize),
     InstitutionBranch: getInstitutionBranchModel(sequelize),
+    InstitutionTeacher: getInstitutionTeacherModel(sequelize),
 
     TrialRegistration: getTrialRegistrationModel(sequelize),
 
@@ -61,6 +63,10 @@ models.Parent.hasMany(models.Child, {foreignKey: "parent_id", onDelete: 'cascade
 models.Institution.hasOne(models.User, {foreignKey: "institution_id", as: "director"});
 models.User.hasOne(models.Institution, {foreignKey: "director_id", as: "institution" });
 
+// Связываю учереждение и учителей
+models.Institution.hasMany(models.InstitutionTeacher, {foreignKey: "institution_id"});
+models.InstitutionTeacher.belongsTo(models.Institution, {foreignKey: "institution_id"});
+
 // Связываю предметы и предметы центра
 models.InstitutionSubject.belongsTo(models.Subject, {foreignKey: "subject_id"});
 models.Subject.hasMany(models.InstitutionSubject, {foreignKey: "subject_id", onDelete: 'cascade'});
@@ -72,6 +78,10 @@ models.Institution.hasMany(models.InstitutionSubject, {foreignKey: "institution_
 // Связываю группу с учреждением, адресом и предметом
 models.InstitutionGroup.belongsTo(models.Institution, {foreignKey: "institution_id"});
 models.Institution.hasMany(models.InstitutionGroup, {foreignKey: "institution_id", onDelete: 'cascade'});
+
+// Связываю группу с учителем
+models.InstitutionGroup.belongsTo(models.InstitutionTeacher, {foreignKey: "teacher_id"});
+models.InstitutionTeacher.hasMany(models.InstitutionGroup, {foreignKey: "teacher_id"});
 
 models.InstitutionGroup.belongsTo(models.InstitutionSubject, {foreignKey: "institution_subject_id"});
 models.InstitutionSubject.hasMany(models.InstitutionGroup, {foreignKey: "institution_subject_id"});

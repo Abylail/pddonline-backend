@@ -17,7 +17,7 @@ export const getGroupList = async (req, res) => {
 export const createGroup = async (req, res) => {
     const {institution_id} = req.params;
     const {
-        institution_branch_id, institution_subject_id,
+        institution_branch_id, institution_subject_id, teacher_id,
         price, price_trial,
         min_age, max_age, max_children_count,
         language_ru, language_kz, open_enrollment,
@@ -40,7 +40,7 @@ export const createGroup = async (req, res) => {
     let newInstitutionGroup
     try {
         newInstitutionGroup = await models.InstitutionGroup.create({
-            price, price_trial,
+            price, price_trial, teacher_id,
             min_age, max_age, max_children_count,
             language_ru, language_kz, open_enrollment,
             monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end
@@ -66,7 +66,7 @@ export const createGroup = async (req, res) => {
 export const updateGroup = async (req, res) => {
     const {institution_id, institution_group_id} = req.params;
     const {
-        institution_branch_id, institution_subject_id,
+        institution_branch_id, institution_subject_id, teacher_id,
         price, price_trial,
         min_age, max_age, max_children_count,
         language_ru, language_kz, open_enrollment,
@@ -84,7 +84,7 @@ export const updateGroup = async (req, res) => {
     try {
         [, updatedInstitutionGroup] = await models.InstitutionGroup.update({
             price, price_trial,
-            institution_subject_id, institution_branch_id,
+            institution_subject_id, institution_branch_id, teacher_id,
             min_age, max_age, max_children_count,
             language_ru, language_kz, open_enrollment,
             monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end

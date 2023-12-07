@@ -18,6 +18,12 @@ import {
 } from "../controllers/institution/institutionBranch.js";
 import {createGroup, deleteGroup, getGroupList, updateGroup} from "../controllers/institution/institutionGroup.js";
 import {getTrialRegistrations} from "../controllers/institution/trialRegistrations.js";
+import {
+    createTeacher,
+    deleteTeacher,
+    getTeacherList,
+    updateTeacher, uploadTeacherPhoto
+} from "../controllers/institution/institutionTeacher.js";
 
 export default () => {
     const router = express.Router();
@@ -56,6 +62,13 @@ export default () => {
     router.post("/:institution_id/group/create", adminOrDirector, createGroup);
     router.put("/:institution_id/group/update/:institution_group_id", adminOrDirector, updateGroup);
     router.delete("/:institution_id/group/delete/:institution_group_id", adminOrDirector, deleteGroup);
+
+    // Учителя
+    router.get("/:institution_id/teacher/get", getTeacherList);
+    router.post("/:institution_id/teacher/create", adminOrDirector, createTeacher);
+    router.put("/:institution_id/teacher/update/:teacher_id", adminOrDirector, updateTeacher);
+    router.delete("/:institution_id/teacher/delete/:teacher_id", adminOrDirector, deleteTeacher);
+    router.post("/:institution_id/teacher/uploadPhoto/:teacher_id", adminOrDirector, uploadTeacherPhoto);
 
     // Записи на пробный
     router.get("/:institution_id/trialregistrations/get", adminOrDirector, getTrialRegistrations)
