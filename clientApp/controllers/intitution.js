@@ -40,7 +40,7 @@ export const getInstitutionDetails = async (req, res) => {
             include: [
                 {model: models.InstitutionSubject},
                 {model: models.InstitutionBranch},
-                {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}]},
+                {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}, {model: models.InstitutionTeacher}]},
             ]
         });
     } catch (e) {
