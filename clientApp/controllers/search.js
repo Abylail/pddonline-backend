@@ -1,6 +1,5 @@
 import models from "../../models/index.js";
 import {createError, createResponse, createWhere} from "../../helpers/responser.js";
-import {cast, col, Op} from "sequelize";
 
 /** Поиск уроков */
 export const searchLessons = async (req, res) => {
@@ -11,17 +10,28 @@ export const searchLessons = async (req, res) => {
         categoryId, /* Код категории */
     } = req.query;
 
+    let availableSubjectIds
+
     let lessons
     try {
+        if (!subjectId && categoryId) {
+            const availableSubjects = await models.Subject.findAll({
+                include: [
+                    { model: models.Category, where: {id: categoryId}, as: "categories", through: "category_subject" }
+                ]
+            })
+            availableSubjectIds = availableSubjects?.map(({id}) => id) || null;
+        }
+
         lessons = await models.InstitutionSubject.findAll({
             limit: +limit || undefined,
             offset: +offset || undefined,
             where: createWhere({
-                subject_id: +subjectId
+                subject_id: subjectId || availableSubjectIds
             }),
             include: [
                 {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}]},
-                {model: models.Subject, include: [{ model: models.Category, where: createWhere({id: categoryId}), as: "categories"}]},
+                {model: models.Subject},
                 {model: models.Institution},
             ]
         });
