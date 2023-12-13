@@ -8,6 +8,7 @@ export const searchLessons = async (req, res) => {
         limit,
         offset,
         subjectId, /* Код урока */
+        categoryId, /* Код категории */
     } = req.query;
 
     let lessons
@@ -20,7 +21,7 @@ export const searchLessons = async (req, res) => {
             }),
             include: [
                 {model: models.InstitutionGroup, include: [{model: models.InstitutionBranch}]},
-                {model: models.Subject},
+                {model: models.Subject, include: [{ model: models.Category, where: createWhere({id: categoryId}), as: "categories"}]},
                 {model: models.Institution},
             ]
         });
@@ -37,14 +38,15 @@ export const searchCenters = async (req, res) => {
     const {
         limit,
         offset,
-        categoryId, /* Код урока */
+        subjectId, /* Код урока */
+        categoryId, /* Код категории */
     } = req.query;
 
     let availableSubjectIds
 
     let institutions
     try {
-        if (categoryId) {
+        if (!subjectId && categoryId) {
             const availableSubjects = await models.Subject.findAll({
                 include: [
                     { model: models.Category, where: {id: categoryId}, as: "categories", through: "category_subject" }
@@ -57,7 +59,7 @@ export const searchCenters = async (req, res) => {
             limit: +limit || undefined,
             offset: +offset || undefined,
             include: [
-                {model: models.InstitutionSubject, where: createWhere({subject_id: availableSubjectIds})},
+                {model: models.InstitutionSubject, where: createWhere({subject_id: subjectId || availableSubjectIds})},
                 {model: models.InstitutionBranch},
             ]
         });

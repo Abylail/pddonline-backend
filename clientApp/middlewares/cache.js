@@ -1,9 +1,10 @@
 import NodeCache from "node-cache";
 const myCache = new NodeCache();
+import "dotenv/config"
 
 // duration - время жизни кэша в часах
 export default (duration) => (req, res, next) => {
-    if (req.method !== "GET") return next();
+    if (process.env.PROCESS_TYPE === 'test' || req.method !== "GET") return next();
 
     const cachedResponse = myCache.get(req.originalUrl)
     if (cachedResponse) return res.send(JSON.parse(cachedResponse));
