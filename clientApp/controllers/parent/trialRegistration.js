@@ -51,6 +51,9 @@ export const registerTrial = async (req, res) => {
     // Отправка смс клиенту
     await sendSmsService(parent.dataValues.phone, `Вы записались на пробный урок (${weekdaysDictionary[weekday]} ${time}). Подробнее https://kidup.kz/account`);
 
+    // Отправка смс центру
+    const director = await models.User.findOne({where: {institution_id: institutionGroup.dataValues.institution_id}})
+    if (director) await sendSmsService(director.dataValues.phone, `Kidup.kz, к вам запись (${child.dataValues.name} ${weekdaysDictionary[weekday]} ${time}). Подробнее: https://kidup.kz/adminpanel`);
 
     return res.status(200).json(createResponse(newRegistration))
 }
