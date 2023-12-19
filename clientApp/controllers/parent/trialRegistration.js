@@ -3,10 +3,11 @@ import {createError, createResponse} from "../../../helpers/responser.js";
 import {Op} from "sequelize";
 import {sendSmsService} from "../../../services/sendSms.js";
 import {weekdaysDictionary} from "../../../config/weekdays.js";
-import {createBranch} from "../../../adminApp/controllers/institution/institutionBranch.js";
+import {planAction} from "../../../services/planAction.js";
 
 // Регистраций на пробный урок
 export const registerTrial = async (req, res) => {
+
     const parentId = req.parentId;
     const {child_id, date, weekday, time, institution_group_id} = req.body;
     if (!child_id || !date || !weekday || !time || !institution_group_id) return res.status(500).json(createError("Отсутствуют аргументы"));
@@ -48,8 +49,19 @@ export const registerTrial = async (req, res) => {
         ]
     });
 
+    // Отправка напоминания клиенту
+    try {
+        const trialDay = new Date(date);
+        const [hour] = time?.split(":");
+        trialDay.setUTCHours(hour);
+        trialDay.setHours(trialDay.getHours() - 3);
+        planAction([trialDay.getUTCDay(), trialDay.getUTCMonth(), trialDay.getUTCMonth(), 0], () => {
+            sendSmsService(parent.dataValues.phone, `Kidup.kz напоминаем вам о записи на пробный урок (${weekdaysDictionary[weekday]} ${time}). Подробнее https://kidup.kz/account`);
+        })
+    } catch (e) {}
+
     // Отправка смс клиенту
-    await sendSmsService(parent.dataValues.phone, `Вы записались на пробный урок (${weekdaysDictionary[weekday]} ${time}). Подробнее https://kidup.kz/account`);
+    await sendSmsService(parent.dataValues.phone, `Kidup.kz, вы записались на пробный урок (${weekdaysDictionary[weekday]} ${time}). Подробнее https://kidup.kz/account`);
 
     // Отправка смс центру
     const director = await models.User.findOne({where: {institution_id: institutionGroup.dataValues.institution_id}})
