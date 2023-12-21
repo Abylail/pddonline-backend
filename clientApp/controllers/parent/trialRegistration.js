@@ -55,7 +55,7 @@ export const registerTrial = async (req, res) => {
         const [hour] = time?.split(":");
         trialDay.setUTCHours(hour);
         trialDay.setHours(trialDay.getHours() - 3);
-        planAction([trialDay.getUTCDay(), trialDay.getUTCMonth(), trialDay.getUTCMonth(), 0], () => {
+        planAction([trialDay.getUTCDay(), trialDay.getUTCMonth(), trialDay.getUTCHours(), 0], () => {
             sendSmsService(parent.dataValues.phone, `Kidup.kz напоминаем вам о записи на пробный урок (${weekdaysDictionary[weekday]} ${time}). Подробнее https://kidup.kz/account`);
         })
     } catch (e) {}
