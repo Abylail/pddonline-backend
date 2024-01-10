@@ -91,6 +91,10 @@ export const callRequest = async (req, res) => {
         child_id: null
     })
 
+    // Отправка смс центру
+    const director = await models.User.findOne({where: {institution_id: institutionId}})
+    if (director) await sendSmsService(director.dataValues.phone, `Kidup.kz, клиент просит позвонить (${parent.dataValues.phone}). Подробнее: https://kidup.kz/adminpanel`);
+
     return res.status(200).json({status: "OK"})
 }
 
