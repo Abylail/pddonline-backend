@@ -9,6 +9,7 @@ import createInstitutionSubjectRoutes from "./institutionSubject.js";
 import createInstitutionRoutes from "./institution.js";
 import createSearchRoutes from "./search.js";
 import createSeoRoutes from "./seo.js";
+import createToyRoutes from "./toys/toy.js";
 
 export default app => {
     const BaseUrl = "/api/v1/client";
@@ -20,4 +21,5 @@ export default app => {
     app.use(`${BaseUrl}/institution`, cache(6), createInstitutionRoutes(app))
     app.use(`${BaseUrl}/search`, cache(6),createSearchRoutes(app))
     app.use(`${BaseUrl}/seo`, cache(6), createSeoRoutes(app))
+    app.use(`${BaseUrl}/toy`, cache(6), createToyRoutes(app))
 }
