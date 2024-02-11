@@ -15,6 +15,7 @@ import getInstitutionBranchModel from "./institutionBranch.js";
 import getInstitutionTeacherModel from "./institutionTeacher.js";
 import getTrialRegistrationModel from "./trialRegistration.js";
 import getQuestionRequestModel from "./request.js";
+import getToyModel from "./toys/toy.js";
 
 const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     dialect: process.env.DATABASE_DIALECT,
@@ -46,6 +47,7 @@ const models = {
     TrialRegistration: getTrialRegistrationModel(sequelize),
 
     QuestionRequest: getQuestionRequestModel(sequelize),
+    Toy: getToyModel(sequelize),
 }
 
 // Связываю юзера и роли
