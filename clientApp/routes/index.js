@@ -21,5 +21,5 @@ export default app => {
     app.use(`${BaseUrl}/institution`, cache(6), createInstitutionRoutes(app))
     app.use(`${BaseUrl}/search`, cache(6),createSearchRoutes(app))
     app.use(`${BaseUrl}/seo`, cache(6), createSeoRoutes(app))
-    app.use(`${BaseUrl}/toy`, cache(6), createToyRoutes(app))
+    app.use(`${BaseUrl}/toy`, /*cache(6), */createToyRoutes(app))
 }
