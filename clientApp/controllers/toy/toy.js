@@ -13,10 +13,11 @@ const getToken = (toy) => {
 
 export const getList = async (req, res) => {
     const toys = await models.Toy.findAll({
-        attributes: ["name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time"]
+        attributes: ["id", "name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time"]
     });
 
     return res.status(200).json(createResponse(toys.map(t => ({
+        id: t.id,
         name_ru: t.name_ru,
         name_kz: t.name_kz,
         description_ru: t.description_ru,
