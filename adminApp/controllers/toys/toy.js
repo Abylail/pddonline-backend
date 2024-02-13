@@ -3,8 +3,8 @@ import {createError, createResponse} from "../../../helpers/responser.js";
 import {removeFile, uploadFile} from "../../../services/image.js";
 
 export const getList = async (req, res) => {
-    const roles = await models.Toy.findAll();
-    res.status(200).json(createResponse(roles));
+    const toys = await models.Toy.findAll();
+    res.status(200).json(createResponse(toys));
 }
 
 export const createToy = async (req, res) => {

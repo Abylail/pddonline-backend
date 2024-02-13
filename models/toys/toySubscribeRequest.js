@@ -1,5 +1,6 @@
 import {DataTypes} from "sequelize";
 import "dotenv/config"
+import {statuses} from "../../config/trialRegistrations.js";
 
 const getToySubscribeRequestModel = sequelize => {
     const ToySubscribeRequest = sequelize.define('toySubscribeRequest', {
@@ -11,6 +12,15 @@ const getToySubscribeRequestModel = sequelize => {
         },
         rate: {
             type: DataTypes.JSON,
+        },
+        status: {
+            type: DataTypes.STRING,
+            values: statuses,
+            default: "start"
+        },
+        comment: {
+            type: DataTypes.STRING,
+            default: ""
         }
     })
 
