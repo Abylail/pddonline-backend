@@ -1,5 +1,6 @@
 import {createResponse} from "../../../helpers/responser.js";
 import models from "../../../models/index.js";
+import {Op} from "sequelize";
 
 const getToken = (toy) => {
     // время окупаемости
@@ -12,9 +13,13 @@ const getToken = (toy) => {
 }
 
 export const getList = async (req, res) => {
-    const toys = await models.Toy.findAll({
-        attributes: ["id", "name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time"]
-    });
+    const {minAge, maxAge} = req.query;
+
+    const attributes = ["id", "name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time"];
+    let toys;
+
+    if (maxAge || minAge) toys = await models.Toy.findAll({attributes, where: {max_age: {[Op.gte]:minAge}, min_age: {[Op.lte]:maxAge}}});
+    else toys = await models.Toy.findAll({attributes});
 
     return res.status(200).json(createResponse(toys.map(t => ({
         id: t.id,
