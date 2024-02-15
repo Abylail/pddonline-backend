@@ -3,7 +3,9 @@ import {createError, createResponse} from "../../../helpers/responser.js";
 import {statuses} from "../../../config/trialRegistrations.js";
 
 export const getList = async (req, res) => {
-    const requests = await models.ToySubscribeRequest.findAll();
+    const requests = await models.ToySubscribeRequest.findAll({
+        order: [['createdAt', 'DESC']],
+    });
     res.status(200).json(createResponse(requests));
 }
 
