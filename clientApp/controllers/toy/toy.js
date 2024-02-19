@@ -18,7 +18,14 @@ export const getList = async (req, res) => {
     const attributes = ["id", "name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time"];
     let toys;
 
-    if (maxAge || minAge) toys = await models.Toy.findAll({attributes, where: {max_age: {[Op.gte]:minAge}, min_age: {[Op.lte]:maxAge}}});
+    if (maxAge || minAge) {
+        let whereObj = {};
+        if (minAge) whereObj["max_age"] = {[Op.gte]: minAge}
+        if (maxAge) whereObj["min_age"] = {[Op.gte]: maxAge}
+        toys = await models.Toy.findAll({
+            attributes, where: whereObj
+        });
+    }
     else toys = await models.Toy.findAll({attributes});
 
     return res.status(200).json(createResponse(toys.map(t => ({
