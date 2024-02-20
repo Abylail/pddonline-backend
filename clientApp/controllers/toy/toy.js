@@ -21,7 +21,7 @@ export const getList = async (req, res) => {
     if (maxAge || minAge) {
         let whereObj = {};
         if (minAge) whereObj["max_age"] = {[Op.gte]: minAge}
-        if (maxAge) whereObj["min_age"] = {[Op.gte]: maxAge}
+        if (maxAge) whereObj["min_age"] = {[Op.lte]: maxAge}
         toys = await models.Toy.findAll({
             attributes, where: whereObj
         });
