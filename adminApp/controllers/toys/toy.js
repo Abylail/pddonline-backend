@@ -9,6 +9,14 @@ export const getList = async (req, res) => {
     res.status(200).json(createResponse(toys));
 }
 
+export const getOne = async (req, res) => {
+    const {id} = req.params;
+    const toy = await models.Toy.findOne({
+        where: {id}
+    });
+    res.status(200).json(createResponse(toy));
+}
+
 export const createToy = async (req, res) => {
     const {name_ru, name_kz, description_ru, description_kz, max_age, min_age, kaspiUrl, price, life_time} = req.body;
 
