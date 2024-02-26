@@ -17,6 +17,7 @@ import getTrialRegistrationModel from "./trialRegistration.js";
 import getQuestionRequestModel from "./request.js";
 import getToyModel from "./toys/toy.js";
 import getToySubscribeRequestModel from "./toys/toySubscribeRequest.js";
+import getToyCategoryModel from "./toys/toyCategory.js";
 
 const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     dialect: process.env.DATABASE_DIALECT,
@@ -50,6 +51,7 @@ const models = {
     QuestionRequest: getQuestionRequestModel(sequelize),
 
     Toy: getToyModel(sequelize),
+    ToyCategory: getToyCategoryModel(sequelize),
     ToySubscribeRequest: getToySubscribeRequestModel(sequelize),
 }
 
@@ -112,6 +114,10 @@ models.Child.hasMany(models.TrialRegistration, {foreignKey: "child_id"})
 // Связываю запросы
 models.QuestionRequest.belongsTo(models.User, {foreignKey: "user_id"});
 models.User.hasMany(models.QuestionRequest, {foreignKey: "user_id"});
+
+// Связываю игрушки и категории
+models.ToyCategory.belongsToMany(models.Toy, {through: "toy_category", as: "toys"});
+models.Toy.belongsToMany(models.ToyCategory, {through: "toy_category", as: "categories"});
 
 export {sequelize};
 

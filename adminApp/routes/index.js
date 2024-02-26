@@ -10,6 +10,7 @@ import getInstitutionRoutes from "./institution.js";
 import getTrialRegistrationsRoutes from "./trialRegistrations.js";
 import getRequestsRoutes from "./requests.js";
 import getToyRoutes from "./toys/toy.js";
+import getCategoryToyRoutes from "./toys/toyCategory.js";
 import getToySubscribeRequestRoutes from "./toys/toysSubscribeRequest.js";
 
 export default app => {
@@ -25,5 +26,6 @@ export default app => {
     app.use(`${BaseUrl}/trialregistrations`, getTrialRegistrationsRoutes(app))
     app.use(`${BaseUrl}/requests`, getRequestsRoutes(app))
     app.use(`${BaseUrl}/toy`, getToyRoutes(app))
+    app.use(`${BaseUrl}/toyCategory`, getCategoryToyRoutes(app))
     app.use(`${BaseUrl}/toySubscribeRequest`, getToySubscribeRequestRoutes(app))
 }
