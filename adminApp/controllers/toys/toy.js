@@ -5,14 +5,20 @@ import {removeFile, uploadFile} from "../../../services/image.js";
 export const getList = async (req, res) => {
     const toys = await models.Toy.findAll({
         order: [['createdAt', 'DESC']],
-    });
+        include: [
+            {model: models.ToyCategory, through: {attributes: []}, as: "categories", attributes: ["id", "name_ru","name_kz", "code"]}
+        ]
+    },);
     res.status(200).json(createResponse(toys));
 }
 
 export const getOne = async (req, res) => {
     const {id} = req.params;
     const toy = await models.Toy.findOne({
-        where: {id}
+        where: {id},
+        include: [
+            {model: models.ToyCategory, through: {attributes: []}, as: "categories", attributes: ["id", "name_ru","name_kz", "code"]}
+        ]
     });
     res.status(200).json(createResponse(toy));
 }
@@ -31,12 +37,37 @@ export const createToy = async (req, res) => {
 
 export const updateToy = async (req, res) => {
     const {id} = req.params;
-    const {name_ru, name_kz, description_ru, description_kz, max_age, min_age, kaspiUrl, price, photos, life_time} = req.body;
+    const {name_ru, name_kz, description_ru, description_kz, max_age, min_age, kaspiUrl, price, photos, life_time, categories} = req.body;
 
     try {
         await models.Toy.update({name_ru, name_kz, description_ru, description_kz, max_age, min_age, kaspiUrl, price, photos, life_time}, {where: {id}});
     } catch (e) {
         res.status(500).json(createError("Не могу создать"));
+    }
+
+    const toy = await models.Toy.findOne({where: {id}, include: [
+            {model: models.ToyCategory, through: {attributes: []}, as: "categories", attributes: ["id", "name_ru","name_kz", "code"]}
+        ]});
+
+    const newCategoryIds = categories.map(({id}) => id);
+    const oldCategoryIds = toy.dataValues.categories.map(({id}) => id);
+
+    // Связывание
+    try {
+        if (Array.isArray(newCategoryIds) && JSON.stringify(newCategoryIds) !== JSON.stringify(oldCategoryIds)) {
+
+            // Добавляю новые
+            const categoriesForAdd = newCategoryIds.filter(categoryId => !oldCategoryIds.includes(categoryId));
+            const addCategoriesModels = await Promise.all(categoriesForAdd.map(categoryId => models.ToyCategory.findOne({where: {id: categoryId}})));
+            await Promise.all(addCategoriesModels.map(categoryModel => categoryModel.addToy(toy.dataValues.id)))
+
+            // Убираю категории
+            const categoriesForDelete = oldCategoryIds.filter(categoryId => !newCategoryIds.includes(categoryId));
+            const deleteCategoriesModels = await Promise.all(categoriesForDelete.map(categoryId => models.ToyCategory.findOne({where: {id: categoryId}})));
+            await Promise.all(deleteCategoriesModels.map(categoryModel => categoryModel.removeToy(toy.dataValues.id)))
+        }
+    } catch (e) {
+        return res.status(500).json(createError("Не могу связать"))
     }
 
     res.status(200).json(createResponse({status: "OK"}));

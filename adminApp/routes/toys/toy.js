@@ -1,11 +1,19 @@
 import express from "express";
 import onlyAdmin from "../../middlewares/onlyAdmin.js";
-import {getList, createToy, updateToy, deleteToy, addPhoto, removePhoto, getOne} from "../../controllers/toys/toy.js";
+import {
+    getList,
+    createToy,
+    updateToy,
+    deleteToy,
+    addPhoto,
+    removePhoto,
+    getOne,
+} from "../../controllers/toys/toy.js";
 
 export default () => {
     const router = express.Router();
 
-    router.get("/get", onlyAdmin, getList);
+    router.get("/get", getList);
     router.get("/get/:id", onlyAdmin, getOne);
     router.post("/create", onlyAdmin, createToy);
     router.put("/update/:id", onlyAdmin, updateToy);
