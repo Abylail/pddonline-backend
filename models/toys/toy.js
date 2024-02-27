@@ -7,6 +7,12 @@ const getToyModel = sequelize => {
         name_kz: DataTypes.STRING,
         description_ru: DataTypes.TEXT,
         description_kz: DataTypes.TEXT,
+        purpose_ru: DataTypes.TEXT,
+        purpose_kz: DataTypes.TEXT,
+        material_ru: DataTypes.TEXT,
+        material_kz: DataTypes.TEXT,
+        size_ru: DataTypes.TEXT,
+        size_kz: DataTypes.TEXT,
         max_age: {
             type: DataTypes.INTEGER,
             default: 8
