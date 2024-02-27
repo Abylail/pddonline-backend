@@ -13,15 +13,16 @@ const getToken = (toy) => {
 }
 
 export const getList = async (req, res) => {
-    const {minAge, maxAge} = req.query;
+    const {minAge, maxAge, categoryId} = req.query;
 
     const attributes = ["id", "name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time"];
     let toys;
 
-    if (maxAge || minAge) {
+    if (maxAge || minAge || categoryId) {
         let whereObj = {};
         if (minAge) whereObj["max_age"] = {[Op.gte]: minAge}
         if (maxAge) whereObj["min_age"] = {[Op.lte]: maxAge}
+        // if (categoryId) whereObj.categoryId = {""}
         toys = await models.Toy.findAll({
             attributes, where: whereObj
         });
