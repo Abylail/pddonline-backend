@@ -20,7 +20,12 @@ export const getOne = async (req, res) => {
     const toy = await models.Toy.findByPk(id, {attributes, include: [
             {model: models.ToyCategory, through: {attributes: []}, as: "categories", attributes: ["id", "name_ru","name_kz", "code"]}
         ]});
-    return res.status(200).json(createResponse(toy))
+    return res.status(200).json(createResponse({
+        ...toy.dataValues,
+        price: undefined,
+        life_time: undefined,
+        token: getToken(toy),
+    }))
 }
 
 export const getList = async (req, res) => {
