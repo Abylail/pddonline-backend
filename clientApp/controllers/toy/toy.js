@@ -15,29 +15,27 @@ const getToken = (toy) => {
 export const getList = async (req, res) => {
     const {minAge, maxAge, categoryId} = req.query;
 
-    const attributes = ["id", "name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time"];
+    const attributes = ["id", "name_ru", "name_kz", "description_ru", "description_kz", "max_age", "min_age", "photos", "price", "life_time", "purpose_ru", "purpose_kz", "material_ru", "material_kz", "size_ru", "size_kz"];
     let toys;
 
     if (maxAge || minAge || categoryId) {
         let whereObj = {};
         if (minAge) whereObj["max_age"] = {[Op.gte]: minAge}
         if (maxAge) whereObj["min_age"] = {[Op.lte]: maxAge}
-        // if (categoryId) whereObj.categoryId = {""}
+        if (categoryId) whereObj["$categories.id$"] = [categoryId]
         toys = await models.Toy.findAll({
-            attributes, where: whereObj
+            attributes, where: whereObj,
+            include: [
+                {model: models.ToyCategory, through: {attributes: []}, as: "categories", attributes: []}
+            ]
         });
     }
     else toys = await models.Toy.findAll({attributes});
 
     return res.status(200).json(createResponse(toys.map(t => ({
-        id: t.id,
-        name_ru: t.name_ru,
-        name_kz: t.name_kz,
-        description_ru: t.description_ru,
-        description_kz: t.description_kz,
-        max_age: t.max_age,
-        min_age: t.min_age,
-        photos: t.photos,
+        ...t.dataValues,
+        price: undefined,
+        life_time: undefined,
         token: getToken(t),
     }))));
 }
