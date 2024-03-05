@@ -18,6 +18,7 @@ import getQuestionRequestModel from "./request.js";
 import getToyModel from "./toys/toy.js";
 import getToySubscribeRequestModel from "./toys/toySubscribeRequest.js";
 import getToyCategoryModel from "./toys/toyCategory.js";
+import getToySubscriberModel from "./toys/toySubscriber.js";
 
 const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     dialect: process.env.DATABASE_DIALECT,
@@ -53,6 +54,7 @@ const models = {
     Toy: getToyModel(sequelize),
     ToyCategory: getToyCategoryModel(sequelize),
     ToySubscribeRequest: getToySubscribeRequestModel(sequelize),
+    ToySubscriber: getToySubscriberModel(sequelize),
 }
 
 // Связываю юзера и роли
