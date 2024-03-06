@@ -9,6 +9,7 @@ import {
     registerTrial
 } from "../controllers/parent/trialRegistration.js";
 import {parentRequest} from "../controllers/request.js";
+import {getSubscribe} from "../controllers/toy/toySubscribe.js";
 
 export default () => {
     const router = express.Router();
@@ -30,6 +31,8 @@ export default () => {
     router.get("/callRequest/:institution_id", parentAuth, callRequest)
 
     router.post("/request", parentAuth, parentRequest)
+
+    router.get("/toySubscribe", parentAuth, getSubscribe)
 
     return router;
 }
