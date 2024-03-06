@@ -4,9 +4,8 @@ import {createError, createResponse} from "../../../helpers/responser.js";
 export const getList = async (req, res) => {
     const subscribers = await models.ToySubscriber.findAll({
         order: [
-            ['endSubscription', 'DESC'],
+            ['endSubscription', 'ASC'],
             ['createdAt', 'DESC'],
-            ['active', 'ASC'],
         ],
     });
     res.status(200).json(createResponse(subscribers));

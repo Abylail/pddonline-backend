@@ -12,11 +12,11 @@ const getToySubscriberModel = sequelize => {
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         rate: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         ratePrice: {
             type: DataTypes.INTEGER,
