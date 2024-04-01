@@ -9,6 +9,32 @@ export const getList = async (req, res) => {
     res.status(200).json(createResponse(users));
 }
 
+export const createUser = async (req, res) => {
+    const {first_name, last_name, phone, password} = req.body;
+
+    const user = await models.User.findOne({ where: { phone } })
+
+    if (user) return res.status(500).json(createError("Пользователь существует"));
+
+    try {
+        await models.User.create({
+            first_name,
+            last_name,
+            phone,
+            password,
+        })
+    } catch (e) {
+        return res.status(500).json(createError("Не могу создать пользователя"));
+    }
+
+    const newUser = await models.User.findOne({
+        where: { phone },
+        attributes: {exclude: ["updatedAt", "createdAt", "password"]}
+    });
+
+    res.status(200).json(createResponse(newUser));
+}
+
 export const deleteUser = async (req, res) => {
     const {id} = req.params;
 
