@@ -2,6 +2,7 @@ import {Sequelize, Op} from "sequelize";
 import 'dotenv/config';
 
 import getUserModel from "./user.js";
+import getQuestionModel from "./question.js";
 
 const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     dialect: process.env.DATABASE_DIALECT,
@@ -15,6 +16,7 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER,
 
 const models = {
     User: getUserModel(sequelize),
+    Question: getQuestionModel(sequelize),
 }
 
 export {sequelize};

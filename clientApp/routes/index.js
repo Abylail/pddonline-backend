@@ -1,7 +1,5 @@
 import "dotenv/config";
 
-import cache from "../middlewares/cache.js";
-
 export default app => {
     const BaseUrl = "/api/v1/client";
 

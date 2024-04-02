@@ -1,5 +1,5 @@
 import express from "express";
-import {getList, bindRole, deleteUser} from "../controllers/users.js";
+import {getList, deleteUser, createUser} from "../controllers/users.js";
 import auth from "../middlewares/auth.js";
 
 export default () => {
@@ -7,7 +7,7 @@ export default () => {
 
     router.get("/get", auth, getList)
     router.delete("/delete/:id", auth, deleteUser)
-    router.post("/bind", auth ,bindRole)
+    router.post("/create", createUser)
 
     return router;
 }

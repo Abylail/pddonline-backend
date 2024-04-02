@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import {generateToken} from "../../helpers/generateAccessToken.js";
+import {setCache} from "../../services/cache.js";
+import generateRandomHash from "../../helpers/generateRandomHash.js";
 
 const generateAccessToken = (user_id) => {
     return jwt.sign({ id: user_id },  process.env.SECRET, { expiresIn: '24h' });
@@ -23,8 +25,11 @@ export const login = async (req, res) => {
     if (!passwordMatch) return res.status(500).json(createError("Неверный логин или пароль"))
 
     const token = generateToken({id: user.id}) || generateAccessToken(user.id);
+    const userToken = generateRandomHash(20);
 
-    res.status(200).json(createResponse({...user.dataValues, password: undefined, token} ));
+    setCache(userToken, token);
+
+    res.status(200).json(createResponse({...user.dataValues, password: undefined, token: userToken} ));
 }
 
 export const tokenAuth = async (req, res) => {
