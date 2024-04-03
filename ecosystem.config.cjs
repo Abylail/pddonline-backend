@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: "backend-kidup",
+            name: "backend",
             script: "./index.js",
         }
     ]
